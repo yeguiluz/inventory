@@ -18,3 +18,25 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::prefix('products')->group(function () {
+    Route::get('index',
+    function () {
+      return view('products.index');
+    })->name('productsIndex');
+
+    Route::get('list',
+    function () {
+    })->name('productsList')
+    ->uses('ProductController@list');
+
+    Route::post('store', function () {
+    })->name('productsStore')
+    ->uses('ProductController@store');
+    // Route::get('delete', function () {
+    //     // Matches The "/admin/users" URL
+    // });
+});
+
+//Route::get('/products/create', 'ProductController@store')->name('productsCreate');
