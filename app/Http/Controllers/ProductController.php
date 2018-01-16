@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Product;
 
 class ProductController extends Controller
 {
@@ -11,9 +15,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function list()
     {
-        //
+        $products = Product::all();
+        return json_encode(['prd' => $products]);
     }
 
     /**
@@ -34,7 +40,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $product = new Product($request->all());
+      $product->save();
+      return redirect()->route('productsIndex');
     }
 
     /**
