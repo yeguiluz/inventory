@@ -1,10 +1,9 @@
 @extends('layouts.main')
-
-@section('ccs')
-  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+@section('css')
+  {!! Html::style('//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css') !!}
 @stop
 @section('js')
-  <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  {!! Html::script('//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js') !!}
 @stop
 @section('jQuery')
   <script type="text/javascript">

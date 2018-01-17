@@ -1,42 +1,42 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
 Route::prefix('products')->group(function () {
-    Route::get('index',
+    Route::get('/',
     function () {
       return view('products.index');
-    })->name('productsIndex');
+    })->name('productsIndex')->middleware('auth');
 
     Route::get('list',
     function () {
     })->name('productsList')
-    ->uses('ProductController@list');
+      ->uses('ProductController@list')->middleware('auth');
+
+    Route::get('available',
+    function () {
+    })->name('productsAvailable')
+      ->uses('ProductController@available');
 
     Route::post('store', function () {
     })->name('productsStore')
-    ->uses('ProductController@store');
-    // Route::get('delete', function () {
-    //     // Matches The "/admin/users" URL
-    // });
-});
+      ->uses('ProductController@store')
+      ->middleware('auth');
 
-//Route::get('/products/create', 'ProductController@store')->name('productsCreate');
+});
+Route::prefix('shop')->group(function () {
+    Route::get('/',function () {
+    })->name('productsIndex')
+      ->uses('ProductController@available')
+      ->middleware('auth');
+      
+    Route::post('add',function () {
+      })->name('addCart')
+        ->uses('ShopController@add');
+});
