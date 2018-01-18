@@ -13,8 +13,8 @@ class Product extends Model
       'stock_alt',
       'price'
     ];
-    function shop_detail()
+    function shopDetail()
     {
-      return $this->hasOne(Shop_Detail::class);
+      return $this->hasMany(Shop_Detail::class);
     }
 }

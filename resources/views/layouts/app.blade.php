@@ -11,22 +11,24 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    {!! Html::style('https://bootswatch.com/4/yeti/bootstrap.min.css') !!}
+    {!! Html::style('https://bootswatch.com/4/cerulean/bootstrap.css') !!}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+
     @yield('ccs')
 </head>
 <body>
-    <div id="app">
-      @yield('main')
+    @yield('main')
+    <div id="app" class="container">
       <div class="row">
-        <div class="col-md-12">
-          <div class="col-md-12">
-            @yield('content')
-          </div>
+        <div id="content" class="col-md-12">
+          @yield('content')
         </div>
       </div>
     </div>
     {!! Html::script('https://code.jquery.com/jquery-3.2.1.min.js') !!}
     {!! Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js')!!}
+    {!! Html::script('https://cdn.jsdelivr.net/npm/vue')!!}
+    {!! Html::script('https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js')!!}
     @yield('js')
     @yield('jQuery')
 </body>

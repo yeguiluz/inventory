@@ -8,7 +8,9 @@
 @section('jQuery')
   <script type="text/javascript">
   $(document).ready(function () {
+    $.fn.dataTable.ext.classes.sPageButton = 'btn btn-primary';
     var table = $('#tDatos').DataTable({
+        pagingType: "numbers",
         language: {
             "url":"//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
         },
@@ -21,8 +23,8 @@
         columns: [
             {data: "id", className: 'text-right'},
             {data: "name"},
-            {data: "stock"},
-            {data: "price"}
+            {data: "stock", classname: 'text-center'},
+            {data: "price", className: 'text-right', type:'num'}
         ]
     });
 
@@ -31,11 +33,12 @@
 @stop
 
 @section('content')
-
+<br>
 <div class="row">
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-body">
+        <h4>Crear Productos</h4>
         {{ Form::open(['route' => 'productsStore', 'method' => 'POST']) }}
 			     <div class="form-group">
              {{ Form::label('name', 'Nombre') }}
@@ -59,6 +62,7 @@
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-body">
+        <h4>Lista de Productos</h4>
         <table id="tDatos" class="table table-bordered table-striped table-condensed table-hover">
           <thead>
             <tr>

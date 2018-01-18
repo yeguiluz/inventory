@@ -20,13 +20,17 @@ class ProductController extends Controller
     public function available()
     {
         $products = DB::table('products')->where('stock', '>', 0)->get();
-        //return json_encode(['prd' => $products]);
         return view('orders.products')
             ->with([
                 'products' => $products
             ]);
     }
 
+    public function productsAvailable()
+    {
+        $products = DB::table('products')->where('stock', '>', 0)->get();
+        return json_encode(['prd'=> $products]);
+    }
     public function create()
     {
 
@@ -39,23 +43,4 @@ class ProductController extends Controller
       return redirect()->route('productsIndex');
     }
 
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
 }

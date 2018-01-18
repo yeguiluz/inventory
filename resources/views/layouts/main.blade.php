@@ -27,12 +27,18 @@
             <a class="nav-link" href="{{route('shop')}}">Tienda</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{{route('cart')}}">Mi Carrito</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('ownOrders')}}">Mis Ordenes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('ordersAll')}}">Ordenes</a>
           </li>
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">{{ Auth::user()->name }} <span class="caret"></span></a>
               <div class="dropdown-menu" aria-labelledby="themes">
-                <a class="nav-link" href="{{ route('logout') }}"
+                <a class="dropdown-item" href="{{ route('logout') }}"
                       onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
                       Logout

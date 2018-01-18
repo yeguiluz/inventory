@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
-use Redirect;
 use App\Shop;
 use App\Shop_Detail;
+use Redirect;
+
 
 class ShopController extends Controller
 {
@@ -33,5 +34,18 @@ class ShopController extends Controller
       );
       return Redirect::back()->with($result);
 
+    }
+
+    public function cart()
+    {
+      $user_id = \Auth::user()->id;
+      $cart = Shop::where('user_id',$user_id)->first();
+      return view('orders.cart')->with('cart', $cart);
+    }
+
+    public function removeItem($id)
+    {
+      Shop_Detail::destroy($id);
+      return Redirect::back();
     }
 }
