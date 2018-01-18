@@ -37,7 +37,7 @@ class OrderController extends Controller
       //Eliminar Carrito
       Shop::destroy($request->shop_id);
 
-      return redirect()->route('shop');
+      return redirect()->route('orderView',['id'=>$order->id]);
     }
 
     public function View($id)
@@ -61,6 +61,11 @@ class OrderController extends Controller
 
     public function list()
     {
+      $userType = \Auth::user()->type;
+      if ($userType== 'vendor')
+      {
+        return null;
+      }
       $orders = DB::table('orders')
       ->join('users', 'user_id', '=', 'users.id')
       ->select('orders.*', 'users.name')

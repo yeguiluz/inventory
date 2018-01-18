@@ -14,58 +14,61 @@
   <div class="col-md-8">
     <div class="panel panel-default">
       <div class="panel-body"><br>
-        <h4>Paso 1. Carrito de Compras</h4>
         @php
           $total = 0;
           $totalProducts = 0;
           $validateQty = '';
           $validateProducts = true;
         @endphp
-        @unless($cart->shopDetails->count())
-          @php $validateQty = 'disabled'; @endphp
-          @php $validateProducts = false; @endphp
+        @if(empty($cart))
           <div class="alert alert-warning">
             <h4 class="alert-heading">No tienes productos en el carrito</h4>
             <a href="{{route('shop')}}" class="alert-link">Ir a la tienda</a>
           </div>
         @else
-        <table id="tDatos" class="table table-bordered table-striped table-condensed table-hover">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Cantidad</th>
-              <th>Precio s./</th>
-              <th>Total s./</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-          @foreach($cart->shopDetails as $detail)
-            <tr>
-              <td>{{$detail->product->name}}
-                @if ($detail->quantity> $detail->product->stock)
-                  <span class="badge badge-warning">
-                  Solo quedan {{$detail->product->stock }}
-                  </span>
-                  @php $validateQty = 'disabled'; @endphp
-                @endif
-              </td>
-              <td style="text-align:center">{{$detail->quantity}}</td>
-              <td style="text-align:right">{{number_format($detail->product->price,2)}}</td>
-              <td style="text-align:right">{{number_format($detail->product->price * $detail->quantity,2)}}</td>
-              <td>
-                <a href="{{route('removeItem',['id'=>$detail->id])}}" class="btn btn-warning">Eliminar</a>
-              </td>
-              <!--td><a href="{{-- route('addCart',['id' => $product->id]) --}}" class="btn btn-warning"></a></td-->
-            </tr>
-            @php
-              $total +=  $detail->product->price * $detail->quantity;
-              $totalProducts +=$detail->quantity;
-            @endphp
-          @endforeach
-          </tbody>
-        </table>
-      @endunless
+          <h4>Paso 1. Carrito de Compras</h4>
+          @unless($cart->shopDetails->count())
+            @php $validateQty = 'disabled'; @endphp
+            @php $validateProducts = false; @endphp
+          @else
+          <table id="tDatos" class="table table-bordered table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio s./</th>
+                <th>Total s./</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+            @foreach($cart->shopDetails as $detail)
+              <tr>
+                <td>{{$detail->product->name}}
+                  @if ($detail->quantity> $detail->product->stock)
+                    <span class="badge badge-warning">
+                    Solo quedan {{$detail->product->stock }}
+                    </span>
+                    @php $validateQty = 'disabled'; @endphp
+                  @endif
+                </td>
+                <td style="text-align:center">{{$detail->quantity}}</td>
+                <td style="text-align:right">{{number_format($detail->product->price,2)}}</td>
+                <td style="text-align:right">{{number_format($detail->product->price * $detail->quantity,2)}}</td>
+                <td>
+                  <a href="{{route('removeItem',['id'=>$detail->id])}}" class="btn btn-warning">Eliminar</a>
+                </td>
+                <!--td><a href="{{-- route('addCart',['id' => $product->id]) --}}" class="btn btn-warning"></a></td-->
+              </tr>
+              @php
+                $total +=  $detail->product->price * $detail->quantity;
+                $totalProducts +=$detail->quantity;
+              @endphp
+            @endforeach
+            </tbody>
+          </table>
+        @endunless
+      @endif
       </div>
     </div>
   </div>
@@ -87,6 +90,7 @@
     </div>
   </div>
 </div>
+@if(!empty($cart))
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -118,4 +122,5 @@
     </div>
   </div>
 </div>
+@endif
 @stop

@@ -24,7 +24,19 @@
             {data: "id", className: 'text-right'},
             {data: "created_at"},
             {data: "status", classname: 'text-center'},
-            {data: "total", className: 'text-right', type:'num'}
+            {data: "total", className: 'text-right', type:'num'},
+            {data: null}
+        ],
+        columnDefs: [
+          {
+              orderable: false,
+              targets: 4,
+              render: function (data, type, row) {
+                  return "<div class='btn-group btn-group-xs'>" +
+                          "<a href='view/"+row.id+"' class='btn btn-success'>Ver detalle</a>" +
+                          "</div>"
+              }
+          },
         ]
     });
 
@@ -46,6 +58,7 @@
               <th>Fecha</th>
               <th>Status</th>
               <th>Total</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody></tbody>
