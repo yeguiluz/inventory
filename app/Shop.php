@@ -11,12 +11,12 @@ class Shop extends Model
   protected $table = 'shop';
   protected $fillable=['user_id'];
 
-  public function users()
+  public function user()
   {
     return $this->belongsTo(User::class);
   }
 
-  public function shop_detail()
+  public function shopDetails()
   {
     return $this->hasMany(Shop_Detail::class);
   }

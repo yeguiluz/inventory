@@ -15,7 +15,7 @@ class Shop_Detail extends Model
   {
     return $this->belongsTo(Shop::class);
   }
-  function products()
+  function product()
   {
     return $this->belongsTo(Product::class);
   }
