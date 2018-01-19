@@ -7,6 +7,25 @@
 @stop
 @section('jQuery')
   <script type="text/javascript">
+  function edit(id) {
+      $.ajax({
+          url: 'products/find/'+id,
+          dataType: "json",
+          type: 'get',
+          cache: false,
+          success: function (data) {
+              $('#ed_product_id').val(data['id']);
+              $('#ed_name').val(data['name']);
+              $('#ed_price').val(data['price']);
+              $('#ed_stock').val(data['stock']);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+              alert("No responde el servidor.");
+          }
+      });
+
+  }
+
   $(document).ready(function () {
     $.fn.dataTable.ext.classes.sPageButton = 'btn btn-primary';
     var table = $('#tDatos').DataTable({
@@ -21,10 +40,21 @@
             dataSrc: "prd"
         },
         columns: [
-            {data: "id", className: 'text-right'},
             {data: "name"},
             {data: "stock", classname: 'text-center'},
-            {data: "price", className: 'text-right', type:'num'}
+            {data: "price", className: 'text-right', type:'num'},
+            {data: null}
+        ],
+        columnDefs: [
+          {
+              orderable: false,
+              targets: 3,
+              render: function (data, type, row) {
+                  return "<div class='btn-group btn-group-xs'>" +
+                  "<button type='button' onClick='edit("+row.id+")' class='btn btn-success' data-toggle='modal' data-target='#exampleModal'>Editar</button>" +
+                  "</div>"
+              }
+          },
         ]
     });
 
@@ -66,10 +96,10 @@
         <table id="tDatos" class="table table-bordered table-striped table-condensed table-hover">
           <thead>
             <tr>
-              <th>#</th>
               <th>Nombre</th>
               <th>Stock</th>
               <th>Precio</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -78,4 +108,7 @@
     </div>
   </div>
 </div>
+
+@include('products.edit')
+
 @stop

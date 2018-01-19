@@ -4,8 +4,6 @@
 @section('js')
 @stop
 @section('jQuery')
-  <script type="text/javascript">
-  </script>
 @stop
 
 @section('content')
@@ -109,7 +107,10 @@
             <label for="address1" class="form-control-label">Dirección Envio</label>
             <textarea class="form-control" id="address1" name="address1" ></textarea>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="text-align: right">
+            <a href="#" onclick="$('#address2').val($('#address1').val())" class="btn btn-primary">Copiar</a>
+          <div>
+          <div class="form-group" style="text-align: left">
             <label for="address1" class="form-control-label">Dirección Facturación:</label>
             <textarea class="form-control" id="address2" name="address2"></textarea>
           </div>

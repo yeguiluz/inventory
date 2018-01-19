@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product;
-
+use Redirect;
 class ProductController extends Controller
 {
 
@@ -36,6 +36,21 @@ class ProductController extends Controller
       $product = new Product($request->all());
       $product->save();
       return redirect()->route('productsIndex');
+    }
+    public function find($id)
+    {
+      $product = Product::find($id);
+      return response()->json($product);
+    }
+
+    public function edit(Request $request)
+    {
+      $product = Product::find($request->ed_product_id);
+      $product->name = $request->ed_name;
+      $product->price = $request->ed_price;
+      $product->stock = $request->ed_stock;
+      $product->save();
+      return Redirect::back();
     }
 
 }

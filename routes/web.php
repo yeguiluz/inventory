@@ -30,6 +30,17 @@ Route::prefix('products')->group(function () {
       ->uses('ProductController@store')
       ->middleware('auth');
 
+    Route::get('find/{id}', function () {
+    })->name('productFind')
+      ->uses('ProductController@find')
+      ->middleware('auth');
+
+    Route::post('edit', function () {
+    })->name('productEdit')
+      ->uses('ProductController@edit')
+      ->middleware('auth');
+
+
 });
 Route::prefix('shop')->group(function () {
     Route::get('/',function () {
