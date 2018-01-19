@@ -25,15 +25,10 @@ class ProductController extends Controller
                 'products' => $products
             ]);
     }
-
     public function productsAvailable()
     {
         $products = DB::table('products')->where('stock', '>', 0)->get();
         return json_encode(['prd'=> $products]);
-    }
-    public function create()
-    {
-
     }
 
     public function store(Request $request)

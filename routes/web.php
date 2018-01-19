@@ -12,17 +12,18 @@ Route::prefix('products')->group(function () {
     Route::get('/',
     function () {
       return view('products.index');
-    })->name('productsIndex')->middleware('auth');
+    })->name('productsIndex')->middleware('auth','vendor');
 
     Route::get('list',
     function () {
     })->name('productsList')
-      ->uses('ProductController@list')->middleware('auth');
+      ->uses('ProductController@list')->middleware('auth','vendor');
 
     Route::get('instock',
     function () {
     })->name('productsAvailable')
-      ->uses('ProductController@productsAvailable');
+      ->uses('ProductController@productsAvailable')
+      ->middleware('auth');
 
     Route::post('store', function () {
     })->name('productsStore')
@@ -34,19 +35,22 @@ Route::prefix('shop')->group(function () {
     Route::get('/',function () {
     })->name('shop')
       ->uses('ProductController@available')
-      ->middleware('auth');
+      ->middleware('auth','client');
 
     Route::post('add',function () {
       })->name('addCart')
-        ->uses('ShopController@add');
+        ->uses('ShopController@add')
+        ->middleware('auth');
 
     Route::get('remove/{id}',function () {
     })->name('removeItem')
-      ->uses('ShopController@removeItem');
+      ->uses('ShopController@removeItem')
+      ->middleware('auth');
 
     Route::get('cart',function () {
     })->name('cart')
-      ->uses('ShopController@cart');
+      ->uses('ShopController@cart')
+      ->middleware('auth','client');
 });
 
 Route::prefix('order')->group(function () {
@@ -65,7 +69,7 @@ Route::prefix('order')->group(function () {
     Route::get('list',function () {
     })->name('ordersList')
       ->uses('OrderController@list')
-      ->middleware('auth');
+      ->middleware('auth','vendor');
     Route::get('own',function () {
       return view('orders.myorders');
     })->name('ownOrders')
@@ -73,6 +77,38 @@ Route::prefix('order')->group(function () {
     Route::get('all',function () {
       return view('orders.list');
     })->name('ordersAll')
-      ->middleware('auth');
+      ->middleware('auth','vendor');
 
+    Route::get('accepted/{id}',function () {
+    })->name('orderAccepted')
+      ->uses('OrderController@accepted')
+      ->middleware('auth','vendor');
+    Route::get('rejected/{id}',function () {
+    })->name('orderRejected')
+      ->uses('OrderController@rejected')
+      ->middleware('auth','vendor');
+    Route::get('sended/{id}',function () {
+    })->name('orderSended')
+      ->uses('OrderController@sended')
+      ->middleware('auth','vendor');
+    Route::get('received/{id}',function () {
+    })->name('orderReceived')
+      ->uses('OrderController@received')
+      ->middleware('auth','client');
+
+});
+
+Route::prefix('users')->group(function(){
+  Route::get('/',function(){
+    return view('users.users');
+  })->name('users')
+    ->middleware('auth','admin');
+  Route::get('list',function(){
+  })->name('userList')
+    ->uses('UsersController@list')
+    ->middleware('auth','admin');
+  Route::post('store',function(){
+  })->name('userStore')
+    ->uses('UsersController@store')
+    ->middleware('auth','admin');
 });

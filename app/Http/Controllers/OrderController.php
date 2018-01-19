@@ -33,6 +33,10 @@ class OrderController extends Controller
         $orderDetail->product_id= $det->product_id;
         $orderDetail->quantity= $det->quantity;
         $orderDetail->save();
+
+        $product = Product::find($det->product_id);
+        $product->stock = $product->stock - $det->quantity;
+        $product->save();
       }
       //Eliminar Carrito
       Shop::destroy($request->shop_id);
@@ -44,8 +48,8 @@ class OrderController extends Controller
     {
       $userType = \Auth::user()->type;
       $order = Order::find($id);
-      if ($userType== 'vendor'){
-        if (\Auth::user() != $order->user->type){
+      if ($userType== 'client'){
+        if (\Auth::user()->id != $order->user->id){
           $order = [];
           return view('orders.view')->with('order',$order);
         }
@@ -62,7 +66,7 @@ class OrderController extends Controller
     public function list()
     {
       $userType = \Auth::user()->type;
-      if ($userType== 'vendor')
+      if ($userType== 'client')
       {
         return null;
       }
@@ -71,5 +75,35 @@ class OrderController extends Controller
       ->select('orders.*', 'users.name')
       ->get();
       return json_encode(['ord' => $orders]);
+    }
+    public function accepted($id){
+      $order = Order::find($id);
+      $order->status = 'accepted';
+      $order->save();
+      return Redirect::back();
+    }
+    public function rejected($id){
+      $order = Order::find($id);
+      $order->status = 'rejected';
+      $order->save();
+      $detail = Order_Detail::where('order_id',$id)->get();
+      foreach ($detail as $det) {
+        $product = Product::find($det->product_id);
+        $product->stock = $product->stock + $det->quantity;
+        $product->save();
+      }
+      return Redirect::back();
+    }
+    public function sended($id){
+      $order = Order::find($id);
+      $order->status = 'sended';
+      $order->save();
+      return Redirect::back();
+    }
+    public function received($id){
+      $order = Order::find($id);
+      $order->status = 'received';
+      $order->save();
+      return Redirect::back();
     }
 }

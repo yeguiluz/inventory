@@ -7,26 +7,6 @@
 @stop
 @section('jQuery')
   <script type="text/javascript">
-
-  new Vue({
-    el: '#content',
-    data: {
-      input: ''
-    },
-    computed: {
-      compiledMarkdown: function () {
-        return marked(this.input, { sanitize: true })
-      }
-    },
-    methods: {
-      update: _.debounce(function (e) {
-        this.input = e.target.value
-      }, 300)
-    }
-  })
-
-  </script>
-  <script type="text/javascript">
   $(document).ready(function () {
     $.fn.dataTable.ext.classes.sPageButton = 'btn btn-primary';
     var table = $('#tDatos').DataTable({
